@@ -7,7 +7,7 @@ from kivy.lang import Builder
 from kivy.clock import Clock
 from kivymd.uix.dialog import MDDialog
 from kivymd.uix.button import MDButton
-
+from kivymd.uix.button import MDFlatButton
 # Import screen classes
 from screens.home_screen import HomeScreen
 from screens.editor_screen import EditorScreen
@@ -19,8 +19,33 @@ from utils.database import DatabaseManager
 from services.cloud_service import GoogleDriveService
 from services.storage_service import StorageService
 
-# inittialise the storage 
-storage = StorageService()
+import logging
+
+logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(levelname)s - %(message)s')
+
+
+# Remove or comment out the global initialization:
+# storage = StorageService()
+
+class NotesApp(MDApp):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.sm = None
+        self.db = None
+        self.storage = None
+        self.cloud = None
+        Window.size = (400, 600)
+        Window.minimum_width = 300
+        Window.minimum_height = 400
+
+    def initialize_services(self):
+        try:
+            self.db = DatabaseManager()
+            self.storage = StorageService(self.db)  # Pass the database instance here
+            self.cloud = GoogleDriveService()
+        except Exception as e:
+            raise Exception(f"Failed to initialize services: {str(e)}")
+
 
 class NotesApp(MDApp):
     """

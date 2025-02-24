@@ -4,7 +4,8 @@ import os
 from datetime import datetime
 
 class StorageService:
-    def __init__(self):
+    def __init__(self, db):
+        self.db = db
         # Initialize with a base directory for storing data
         self.base_dir = os.path.join(os.path.dirname(__file__), '..', 'data')
         self.ensure_storage_directory()
