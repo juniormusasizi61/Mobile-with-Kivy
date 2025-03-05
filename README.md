@@ -12,7 +12,7 @@ notes using python programming
 ## Add your files to cnotribute 
 cd existing_repo
 git remote add origin (https://github.com/juniormusasizi61/Mobile-with-Kivy.git)
-git branch -M main
+git branch -m main
 git push -uf origin main
 
 
