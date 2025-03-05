@@ -1,7 +1,7 @@
 # screens/home_screen.py
 from kivymd.uix.screen import MDScreen
 from kivymd.uix.list import MDList
-from kivymd.uix.button import MDFabButton
+from kivymd.uix.button import MDFlatButton
 from kivymd.uix.card import MDCard
 from kivymd.uix.boxlayout import MDBoxLayout
 from kivymd.uix.label import MDLabel
@@ -86,7 +86,7 @@ class HomeScreen(MDScreen):
         self.add_widget(self.layout)
         
         # Add FAB for new note
-        fab = MDFabButton(
+        fab = MDFlatButton(
             icon="plus",
             pos_hint={'right': 0.95, 'bottom': 0.05}
         )

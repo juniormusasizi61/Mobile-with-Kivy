@@ -1,6 +1,6 @@
 # screens/share_screen.py
 from kivymd.uix.screen import MDScreen
-from kivymd.uix.button import MDButton
+from kivymd.uix.button import button
 from kivymd.uix.dialog import MDDialog
 from kivymd.uix.boxlayout import MDBoxLayout
 from kivymd.app import MDApp
@@ -21,7 +21,7 @@ class ShareScreen(MDScreen):
         )
         
         # Social media sharing buttons
-        facebook_btn = MDButton(
+        facebook_btn = button(
             text="Share to Facebook",
             style="filled",
             size_hint_x=0.8,
@@ -29,7 +29,7 @@ class ShareScreen(MDScreen):
         )
         facebook_btn.bind(on_press=self.share_to_facebook)
         
-        twitter_btn = MDButton(
+        twitter_btn = button(
             text="Share to X (Twitter)",
             style="filled",
             size_hint_x=0.8,
@@ -37,7 +37,7 @@ class ShareScreen(MDScreen):
         )
         twitter_btn.bind(on_press=self.share_to_twitter)
         
-        instagram_btn = MDButton(
+        instagram_btn = button(
             text="Share to Instagram",
             style="filled",
             size_hint_x=0.8,
@@ -46,7 +46,7 @@ class ShareScreen(MDScreen):
         instagram_btn.bind(on_press=self.share_to_instagram)
         
         # Back button
-        back_btn = MDButton(
+        back_btn = button(
             text="Back",
             style="outlined",
             size_hint_x=0.8,
@@ -109,7 +109,7 @@ class ShareScreen(MDScreen):
             title="Success",
             text=message,
             buttons=[
-                MDButton(
+                button(
                     text="OK",
                     style="text",
                     on_press=lambda x: self.dialog.dismiss()
@@ -126,7 +126,7 @@ class ShareScreen(MDScreen):
             title="Error",
             text=message,
             buttons=[
-                MDButton(
+                button(
                     text="OK",
                     style="text",
                     on_press=lambda x: self.dialog.dismiss()

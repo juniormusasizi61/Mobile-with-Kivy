@@ -5,7 +5,7 @@ from kivymd.uix.screen import MDScreen  # Base screen class
 from kivymd.uix.list import MDList      # Container for list items
 from kivymd.uix.card import MDCard      # Material Design card component
 from kivymd.uix.boxlayout import MDBoxLayout  # Layout manager for arranging widgets
-from kivymd.uix.button import MDButton  # Material Design button
+from kivymd.uix.button import button  # Material Design button
 from kivymd.uix.label import MDLabel    # Text display widget
 from kivymd.app import MDApp            # Main application class
 
@@ -129,7 +129,7 @@ class SettingsScreen(MDScreen):
         main_layout.add_widget(settings_list)
         
         # Add a back button at the bottom of the screen
-        back_button = MDButton(
+        back_button = button(
             text="Back to Home",
             style="outlined",           # Outlined style for secondary action
             size_hint_x=0.8,           # 80% of screen width
@@ -195,7 +195,7 @@ class SettingsScreen(MDScreen):
             title="Error" if is_error else "Success",
             text=text,
             buttons=[
-                MDButton(
+                button(
                     text="OK",
                     style="text",
                     on_press=lambda x: dialog.dismiss()

@@ -1,7 +1,7 @@
 # screens/editor_screen.py
 from kivymd.uix.screen import MDScreen
 from kivymd.uix.textfield import MDTextField
-from kivymd.uix.button import MDButton
+from kivymd.uix.button import button
 from kivymd.uix.boxlayout import MDBoxLayout
 from kivymd.app import MDApp
 
@@ -48,7 +48,7 @@ class EditorScreen(MDScreen):
         )
         
         # Save button
-        save_button = MDButton(
+        save_button = button(
             text="Save",
             style="filled",
             size_hint_x=0.5
@@ -56,7 +56,7 @@ class EditorScreen(MDScreen):
         save_button.bind(on_press=self.save_note)
         
         # Cancel button
-        cancel_button = MDButton(
+        cancel_button = button(
             text="Cancel",
             style="outlined",
             size_hint_x=0.5

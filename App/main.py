@@ -6,7 +6,7 @@ from kivy.core.window import Window
 from kivy.lang import Builder
 from kivy.clock import Clock
 from kivymd.uix.dialog import MDDialog
-from kivymd.uix.button import MDButton
+from kivy.uix.button import Button
 from kivymd.uix.button import MDFlatButton
 # Import screen classes
 from screens.home_screen import HomeScreen
@@ -27,24 +27,18 @@ logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(levelname)s - %
 # Remove or comment out the global initialization:
 # storage = StorageService()
 
+
+
 class NotesApp(MDApp):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.sm = None
-        self.db = None
-        self.storage = None
-        self.cloud = None
+        self.sm = ScreenManager()
+        self.db = DatabaseManager()
+        self.storage = GoogleDriveService()
+        self.cloud = StorageService(self.db)
         Window.size = (400, 600)
         Window.minimum_width = 300
         Window.minimum_height = 400
-
-    def initialize_services(self):
-        try:
-            self.db = DatabaseManager()
-            self.storage = StorageService(self.db)  # Pass the database instance here
-            self.cloud = GoogleDriveService()
-        except Exception as e:
-            raise Exception(f"Failed to initialize services: {str(e)}")
 
 
 class NotesApp(MDApp):
@@ -55,7 +49,7 @@ class NotesApp(MDApp):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         # Initialize class variables
-        self.sm = None
+        self.sm = ScreenManager()
         self.db = None
         self.storage = None
         self.cloud = None
@@ -117,7 +111,7 @@ class NotesApp(MDApp):
         
         for name, screen_class in screens.items():
             try:
-                screen = screen_class(name=name)
+                screen = screen_class(name= name)
                 self.sm.add_widget(screen)
             except Exception as e:
                 self.show_error_dialog(f"Error loading {name} screen: {str(e)}")
@@ -149,9 +143,9 @@ class NotesApp(MDApp):
         """
         Checks if this is the first time running the app and shows setup dialog if needed.
         """
-        if not self.storage.get_setting('first_time_setup_complete'):
+        if not self.storage.retrieve_data('first_time_setup_complete'):
             self.show_welcome_dialog()
-            self.storage.save_setting('first_time_setup_complete', True)
+            self.storage.store_data('first_time_setup_complete', True)
 
     def show_welcome_dialog(self):
         """
@@ -161,11 +155,11 @@ class NotesApp(MDApp):
             title="Welcome to Notes App!",
             text="Thank you for installing Notes App. Would you like to take a quick tour?",
             buttons=[
-                MDButton(
+                Button(
                     text="Skip",
                     on_press=lambda x: dialog.dismiss()
                 ),
-                MDButton(
+                Button(
                     text="Take Tour",
                     on_press=lambda x: self.start_app_tour()
                 )
@@ -181,7 +175,7 @@ class NotesApp(MDApp):
             title="Error",
             text=message,
             buttons=[
-                MDButton(
+                Button(
                     text="OK",
                     on_press=lambda x: dialog.dismiss()
                 )
