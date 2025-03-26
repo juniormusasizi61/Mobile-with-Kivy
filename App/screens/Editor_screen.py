@@ -5,6 +5,7 @@ from kivymd.uix.button import button
 from kivymd.uix.boxlayout import MDBoxLayout
 from kivymd.app import MDApp
 
+
 class EditorScreen(MDScreen):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -74,7 +75,7 @@ class EditorScreen(MDScreen):
         self.add_widget(layout)
     
     def save_note(self, instance):
-        from models.note import Note
+        from Model.note import Note
         
         note = Note(
             title=self.title_field.text,

@@ -37,8 +37,8 @@ class NotesApp(MDApp):
         self.storage = GoogleDriveService()
         self.cloud = StorageService(self.db)
         Window.size = (400, 600)
-        Window.minimum_width = 300
-        Window.minimum_height = 400
+        Window.minimum_width = 30
+        Window.minimum_height = 40
 
 
 class NotesApp(MDApp):
@@ -46,13 +46,17 @@ class NotesApp(MDApp):
     Main application class that handles initialization and lifecycle management.
     This enhanced version includes proper error handling and screen management.
     """
+
+
+
+    
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         # Initialize class variables
         self.sm = ScreenManager()
         self.db = None
         self.storage = None
-        self.cloud = None
+
         
         # Set initial window size and minimum dimensions
         Window.size = (400, 600)  # Default size for mobile-like experience
@@ -93,7 +97,13 @@ class NotesApp(MDApp):
         try:
             self.db = DatabaseManager()
             self.storage = StorageService(self.db)
+            # self.cloud = GoogleDriveService()
+       
             self.cloud = GoogleDriveService()
+        except Exception as e:
+            logging.warning(f"Could not initialize cloud service: {str(e)}")
+            self.cloud = None  # Explicitly set to None
+            
         except Exception as e:
             raise Exception(f"Failed to initialize services: {str(e)}")
 
@@ -131,11 +141,15 @@ class NotesApp(MDApp):
             self.show_error_dialog(f"Error during startup: {str(e)}")
 
     def delayed_cloud_sync(self, dt):
-        """
-        Performs cloud synchronization after a delay to ensure smooth startup.
-        """
+      
         try:
-            self.cloud.sync_notes()
+            def __init__(self):
+                    self.cloud = None
+            if self.cloud is not None:
+                    self.cloud.sync_notes()
+            else:
+                logging.error("Cloud service not initialized")
+            self.show_error_dialog("Cloud service not available")
         except Exception as e:
             self.show_error_dialog(f"Cloud sync failed: {str(e)}")
 
@@ -175,13 +189,14 @@ class NotesApp(MDApp):
             title="Error",
             text=message,
             buttons=[
-                Button(
+                MDFlatButton(
                     text="OK",
                     on_press=lambda x: dialog.dismiss()
                 )
             ]
         )
         dialog.open()
+
 
     def start_app_tour(self):
         """
